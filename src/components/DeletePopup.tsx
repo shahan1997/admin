@@ -55,7 +55,7 @@ const DeletePopup = ({
           flexDirection: "column",
           alignItems: "center",
           padding: "24px",
-          gap: "16px",
+          // gap: "16px",
         },
       }}
     >
@@ -64,7 +64,7 @@ const DeletePopup = ({
         component="img"
         src={require("../../src/assets/images/alert.svg").default}
         alt="Delete Icon"
-        sx={{ width: 60, height: 60, marginBottom: 2 }}
+        sx={{ width: 60, height: 60 }}
       />
 
       {/* Centered and bold title */}

@@ -32,6 +32,14 @@ export interface IPizza {
   images: string[];
 }
 
+export interface IPizzaUpdate {
+  name: string;
+  basePrice: number;
+  description: string;
+  ingredients: IIngredient[];
+  images: string[];
+}
+
 export interface IProductListResponse {
   pizzas: IPizza[];
 }

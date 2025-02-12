@@ -12,10 +12,8 @@ import { header } from "../../styles/header";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { selectBasketItems } from "../../page/Menu/store/BasketSelector";
 
 const Header = ({ ...rest }) => {
-  const selectItem = useSelector(selectBasketItems);
   const navigate = useNavigate();
 
   const goToMenuCard = () => {
@@ -27,43 +25,17 @@ const Header = ({ ...rest }) => {
         <Toolbar sx={{ mt: 1 }}>
           <img
             src={
-              "https://i.ibb.co/cTCzD3n/istockphoto-1125921857-612x612-removebg-preview.png"
+              "https://i.ibb.co/xyWVwZv/logo.png"
             }
             alt="Logo"
             style={{ height: 60 }}
           />
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ flexGrow: 1, fontWeight: 600, color: appColors.white }}
-          >
-            Pizza
-          </Typography>
+          
           <IconButton
             color="inherit"
             aria-label="shopping cart"
             onClick={goToMenuCard}
-          >
-            <Badge
-              badgeContent={selectItem.length}
-              color="secondary"
-              sx={{
-                "& .MuiBadge-badge": {
-                  right: 2,
-                  top: 11,
-                  backgroundColor: appColors.orange[50],
-                },
-              }}
-            >
-              <ShoppingCartIcon
-                sx={{
-                  width: "40px",
-                  height: "40px",
-                  color: appColors.white,
-                }}
-              />
-            </Badge>
-          </IconButton>
+          ></IconButton>
         </Toolbar>
       </AppBar>
     </Box>

@@ -1,5 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { IApiResponse, IProductData } from "../core/interface/api.interface";
+import {
+  IApiResponse,
+  IPizzaUpdate,
+  IProductData,
+} from "../core/interface/api.interface";
 
 /**
  * Holds all the API callbacks
@@ -41,8 +45,22 @@ export const posApi = createApi({
     deleteProduct: builder.mutation<IApiResponse, string>({
       query: (Id) => {
         return {
-          url: `/product/${Id}`,
+          url: `/${Id}`,
           method: "DELETE",
+        };
+      },
+      invalidatesTags: ["Product"],
+    }),
+
+    updateProduct: builder.mutation<
+      IApiResponse,
+      { id: string; data: IPizzaUpdate }
+    >({
+      query: ({ id, data }) => {
+        return {
+          url: `/${id}`,
+          method: "PUT",
+          body: JSON.stringify(data),
         };
       },
       invalidatesTags: ["Product"],
@@ -54,4 +72,5 @@ export const {
   useGetAllProductQuery,
   useSaveProductMutation,
   useDeleteProductMutation,
+  useUpdateProductMutation,
 } = posApi;

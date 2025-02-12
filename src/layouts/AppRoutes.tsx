@@ -4,8 +4,6 @@ import { Loader } from "../components/Loader";
 
 // Import the Product component lazily
 const Dashboard = React.lazy(() => import("../page/Dashboard"));
-const PizzaMenu = React.lazy(() => import("../page/Menu"));
-const Card = React.lazy(() => import("../page/Card"));
 
 /**
  * AppRoutes will load the app routes.
@@ -22,23 +20,6 @@ const AppRoutes = () => {
 
       {/* Default route - Redirect to /product */}
       <Route path="/" element={<Navigate to="/dashboard" />} />
-
-      <Route
-        path="/menu"
-        element={
-          <Suspense fallback={<Loader />}>
-            <PizzaMenu />
-          </Suspense>
-        }
-      />
-      <Route
-        path="/card"
-        element={
-          <Suspense fallback={<Loader />}>
-            <Card />
-          </Suspense>
-        }
-      />
 
       <Route
         path="/dashboard"
