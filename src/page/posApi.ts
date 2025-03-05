@@ -3,6 +3,8 @@ import {
   IApiResponse,
   IPizzaUpdate,
   IProductData,
+  IUser,
+  IUserRegistrar,
 } from "../core/interface/api.interface";
 
 /**
@@ -16,10 +18,14 @@ export const posApi = createApi({
     baseUrl: "http://localhost:5000/api/products",
     prepareHeaders: (headers) => {
       headers.set("Content-Type", "application/json");
+      headers.set(
+        "Authorization",
+        `Bearer ${localStorage.getItem("token") || ""}`
+      );
       return headers;
     },
   }),
-  tagTypes: ["Product"],
+  tagTypes: ["Product", "Order"],
   endpoints: (builder) => ({
     getAllProduct: builder.query<IApiResponse, void>({
       query: (request) => {
@@ -31,7 +37,25 @@ export const posApi = createApi({
       providesTags: ["Product"],
       keepUnusedDataFor: 0,
     }),
-
+    getAllOrders: builder.query<IApiResponse, void>({
+      query: () => ({
+        url: "/get/orders",
+        method: "GET",
+      }),
+      providesTags: ["Order"],
+      keepUnusedDataFor: 0,
+    }),
+    updateOrderStatus: builder.mutation<
+      IApiResponse,
+      { orderId: string; status: string }
+    >({
+      query: ({ orderId, status }) => ({
+        url: `/order/${orderId}`,
+        method: "PUT",
+        body: { status },
+      }),
+      invalidatesTags: ["Order"],
+    }),
     saveProduct: builder.mutation<IApiResponse, Object>({
       query: (request) => {
         return {
@@ -51,7 +75,22 @@ export const posApi = createApi({
       },
       invalidatesTags: ["Product"],
     }),
-
+    login: builder.mutation<IApiResponse, IUser>({
+      query: (request) => {
+        return {
+          url: "/login",
+          method: "POST",
+          body: JSON.stringify(request),
+        };
+      },
+    }),
+    register: builder.mutation<IApiResponse, IUserRegistrar>({
+      query: (data) => ({
+        url: "/register",
+        method: "POST",
+        body: JSON.stringify(data),
+      }),
+    }),
     updateProduct: builder.mutation<
       IApiResponse,
       { id: string; data: IPizzaUpdate }
@@ -70,7 +109,11 @@ export const posApi = createApi({
 
 export const {
   useGetAllProductQuery,
+  useGetAllOrdersQuery,
+  useUpdateOrderStatusMutation,
   useSaveProductMutation,
   useDeleteProductMutation,
   useUpdateProductMutation,
+  useLoginMutation,
+  useRegisterMutation,
 } = posApi;
